@@ -16,6 +16,7 @@ class SplashViewController: UIViewController {
         
         // ciclo de decisão se vai para o login ou se vai pra home
         setup()
+        setupGesture()
     }
 
     private func setup() {
@@ -23,6 +24,13 @@ class SplashViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = Colors.primaryRedBase
         setupConstraints()
+     
+    }
+    
+    private func setupGesture () {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showLoginBottomSheet))
+        self.view.addGestureRecognizer(tapGesture)
+        
     }
 
     private func setupConstraints() {
@@ -33,5 +41,15 @@ class SplashViewController: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
         contentView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    @objc
+    private func showLoginBottomSheet() {
+        let loginBottonSheet = LoginBottomSheetViewController()
+        loginBottonSheet.modalPresentationStyle = .overCurrentContext
+        loginBottonSheet.modalTransitionStyle = .crossDissolve
+        self.present(loginBottonSheet, animated: false, ){
+            loginBottonSheet.animateShow()
+        }
     }
 }

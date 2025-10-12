@@ -12,22 +12,32 @@ class LoginBottomSheetView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Entre para acessar suas receitas"
+        label.text = "login.label.title".localized
+        label.isUserInteractionEnabled = true
+        label.font = Typography.subHeading
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let loginTextFieldLabel: UILabel = {
+        let label = UILabel()
+        label.text = "login.loginText.label.title".localized
+        label.isUserInteractionEnabled = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let passwordTextFieldLabel: UILabel = {
+        let label = UILabel()
+        label.text = "login.passwordText.label.title".localized
+        label.isUserInteractionEnabled = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private let handleArea: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
-        view.layer.cornerRadius = Metrics.tiny
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
     private let emailTextField: UITextField = {
         let text = UITextField()
-        text.placeholder = "email@example.com"
+        text.placeholder = "login.email.placeholder".localized
         text.borderStyle = .roundedRect
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
@@ -35,7 +45,7 @@ class LoginBottomSheetView: UIView {
 
     private let passwordTextField: UITextField = {
         let text = UITextField()
-        text.placeholder = "senha"
+        text.placeholder = "login.password.placeholder".localized
         text.borderStyle = .roundedRect
         text.isSecureTextEntry = true
         text.translatesAutoresizingMaskIntoConstraints = false
@@ -44,9 +54,11 @@ class LoginBottomSheetView: UIView {
 
     private let loginButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Entrar", for: .normal)
+        button.setTitle("login.button.title".localized, for: .normal)
         button.backgroundColor = Colors.primaryRedBase
-        button.layer.cornerRadius = Metrics.tiny
+        button.layer.cornerRadius = Metrics.medium
+        button.tintColor = .white
+        button.titleLabel?.font = Typography.subHeading
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -54,14 +66,26 @@ class LoginBottomSheetView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        let exampleGest = UITapGestureRecognizer(target: self, action: #selector(exampleTaped))
+        titleLabel.addGestureRecognizer(exampleGest)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc
+    private func exampleTaped() {
+        print("clicou na label")
     }
 
     private func setupUI() {
         self.backgroundColor = .white
         self.layer.cornerRadius = Metrics.small
-        addSubview(handleArea)
         addSubview(titleLabel)
+        addSubview(loginTextFieldLabel)
         addSubview(emailTextField)
+        addSubview(passwordTextFieldLabel)
         addSubview(passwordTextField)
         addSubview(loginButton)
         setupConstraints()
@@ -69,28 +93,30 @@ class LoginBottomSheetView: UIView {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            handleArea.topAnchor.constraint(equalTo: self.topAnchor, constant: Metrics.small),
-            handleArea.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            handleArea.widthAnchor.constraint(equalToConstant: 40),
-            handleArea.heightAnchor.constraint(equalToConstant: 6),
 
-            titleLabel.topAnchor.constraint(equalTo: handleArea.bottomAnchor, constant: Metrics.medium),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: Metrics.huge),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
-
-            emailTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.medium),
-            emailTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
-
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: Metrics.medium),
-            passwordTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
             
-            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Metrics.medium),
+            loginTextFieldLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.medium),
+            loginTextFieldLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
+
+            emailTextField.topAnchor.constraint(equalTo: loginTextFieldLabel.bottomAnchor, constant: Metrics.medium),
+            emailTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
+            emailTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.medium),
+            emailTextField.heightAnchor.constraint(equalToConstant: Metrics.inputHeight),
+            
+            passwordTextFieldLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: Metrics.medium),
+            passwordTextFieldLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
+
+            passwordTextField.topAnchor.constraint(equalTo: passwordTextFieldLabel.bottomAnchor, constant: Metrics.medium),
+            passwordTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
+            passwordTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.medium),
+            passwordTextField.heightAnchor.constraint(equalToConstant: Metrics.inputHeight),
+            
             loginButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
             loginButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.medium),
-            loginButton.heightAnchor.constraint(equalToConstant: 50)
+            loginButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Metrics.huge),
+            loginButton.heightAnchor.constraint(equalToConstant: Metrics.buttonHeight),
         ])
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
