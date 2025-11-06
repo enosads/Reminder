@@ -46,6 +46,7 @@ class SplashViewController: UIViewController {
     @objc
     private func showLoginBottomSheet() {
         let loginBottonSheet = LoginBottomSheetViewController()
+        loginBottonSheet.mainNavigation = self.navigationController!
         loginBottonSheet.modalPresentationStyle = .overCurrentContext
         loginBottonSheet.modalTransitionStyle = .crossDissolve
         self.present(loginBottonSheet, animated: false, ){

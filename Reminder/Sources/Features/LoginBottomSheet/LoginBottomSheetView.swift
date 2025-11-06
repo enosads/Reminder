@@ -10,6 +10,8 @@ import UIKit
 
 class LoginBottomSheetView: UIView {
 
+    public weak var delegate: LoginBottomSheetViewDelegate?
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "login.label.title".localized
@@ -18,15 +20,16 @@ class LoginBottomSheetView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let loginTextFieldLabel: UILabel = {
         let label = UILabel()
         label.text = "login.loginText.label.title".localized
         label.isUserInteractionEnabled = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        
         return label
     }()
-    
+
     private let passwordTextFieldLabel: UILabel = {
         let label = UILabel()
         label.text = "login.passwordText.label.title".localized
@@ -40,6 +43,11 @@ class LoginBottomSheetView: UIView {
         text.placeholder = "login.email.placeholder".localized
         text.borderStyle = .roundedRect
         text.translatesAutoresizingMaskIntoConstraints = false
+        text.autocapitalizationType = .none
+        text.autocorrectionType = .no
+        text.keyboardType = .emailAddress
+        text.text = "enosads@gmail.com"
+    
         return text
     }()
 
@@ -49,6 +57,7 @@ class LoginBottomSheetView: UIView {
         text.borderStyle = .roundedRect
         text.isSecureTextEntry = true
         text.translatesAutoresizingMaskIntoConstraints = false
+        text.text = "enos123456"
         return text
     }()
 
@@ -57,6 +66,7 @@ class LoginBottomSheetView: UIView {
         button.setTitle("login.button.title".localized, for: .normal)
         button.backgroundColor = Colors.primaryRedBase
         button.layer.cornerRadius = Metrics.medium
+        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.titleLabel?.font = Typography.subHeading
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -66,14 +76,14 @@ class LoginBottomSheetView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        let exampleGest = UITapGestureRecognizer(target: self, action: #selector(exampleTaped))
-        titleLabel.addGestureRecognizer(exampleGest)
     }
     
+
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     @objc
     private func exampleTaped() {
         print("clicou na label")
@@ -96,7 +106,7 @@ class LoginBottomSheetView: UIView {
 
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: Metrics.huge),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
-            
+
             loginTextFieldLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.medium),
             loginTextFieldLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
 
@@ -104,7 +114,7 @@ class LoginBottomSheetView: UIView {
             emailTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
             emailTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.medium),
             emailTextField.heightAnchor.constraint(equalToConstant: Metrics.inputHeight),
-            
+
             passwordTextFieldLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: Metrics.medium),
             passwordTextFieldLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
 
@@ -112,11 +122,20 @@ class LoginBottomSheetView: UIView {
             passwordTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
             passwordTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.medium),
             passwordTextField.heightAnchor.constraint(equalToConstant: Metrics.inputHeight),
-            
+
             loginButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.medium),
             loginButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.medium),
             loginButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Metrics.huge),
             loginButton.heightAnchor.constraint(equalToConstant: Metrics.buttonHeight),
         ])
+    }
+
+    @objc
+    private func loginButtonTapped() {
+        let password = passwordTextField.text ?? ""
+        let user = emailTextField.text  ?? ""
+
+
+        delegate?.sendLoginData(user: user, password: password)
     }
 }
