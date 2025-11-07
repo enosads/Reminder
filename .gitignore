@@ -1,0 +1,44 @@
+# Xcode
+.DS_Store
+*.xcodeproj
+*.xcworkspace
+*.playground
+xcuserdata/
+DerivedData/
+build/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Swift Package Manager
+.swiftpm/
+
+# IntelliJ / AppCode
+.idea/
+
+# Crashlytics
+Crashlytics/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+
+# Other
+*.hmap
+*.ipa
+*.dSYM.zip
+*.app.dSYM
+*.app
+*.o
+*.lo
+*.la
+*.so
+*.dylib
+*.a
+*.bak
+*.swp
+*~.nib
+*.xcbkptlist
+*.xcuserstate
