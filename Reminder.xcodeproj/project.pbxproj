@@ -21,6 +21,7 @@
 		1643E1042E864C8C001AA596 /* Exceptions for "Reminder" folder in "Reminder" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				.gitignore,
 				Info.plist,
 			);
 			target = 1643E0F12E864C8A001AA596 /* Reminder */;

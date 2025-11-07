@@ -42,7 +42,8 @@ class LoginBottomSheetViewController: UIViewController {
         viewModel.successResult = { [weak self] in
             let viewController = UIViewController()
             viewController.view.backgroundColor = .red
-            
+
+            self?.dismiss(animated: true)
             self?.mainNavigation?.pushViewController(viewController, animated: true)
         }
     }
